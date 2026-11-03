@@ -2,15 +2,16 @@
 name: Backup Supabase
 on:
   schedule:
-    - cron: "0 18 * * 0"   # Sundays 18:00 UTC (Mon 2am Perth)
+    - cron: "0 18 */2 * *" 
   workflow_dispatch:
 jobs:
   backup:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Install Postgres 17 client
         run: |
-          sudo apt-get update
+          sudo apt-get install -y postgresql-common
+          sudo /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh -y
           sudo apt-get install -y postgresql-client-17
       - name: Dump database
         run: |
